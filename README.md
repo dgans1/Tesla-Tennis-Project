@@ -35,7 +35,7 @@ From basic scoring to tournament scenarios, Tennis Rules Challenge makes learnin
 
 Correct answers increase your streak, while incorrect answers reset it. A special message appears after five consecutive correct answers.
 
-Progress is tracked during the current session. Refreshing the page resets scores, streaks, and level state.
+Progress, best scores, completed levels, and the active quiz are saved on this browser using localStorage. Use Save & exit to return later, or Reset progress to start over. Saving may be unavailable when a browser blocks local storage.
 
 ## Tech Stack
 
@@ -47,7 +47,7 @@ Progress is tracked during the current session. Refreshing the page resets score
 | CSS | Layout, styling, and animations |
 | HTML Drag and Drop API | Ordering exercises |
 
-The ordering interface uses custom components and native browser drag events. Although `react-beautiful-dnd` is included in the dependencies, it is not used by the rendered ordering exercises.
+Ordering exercises support native drag events plus Move up and Move down buttons for keyboard and touch interaction.
 
 ## Getting Started
 
@@ -101,14 +101,20 @@ npm run preview
 | `npm run dev` | Start the development server |
 | `npm run build` | Create a production build |
 | `npm run preview` | Preview the production build |
+| `npm test` | Run the quiz logic tests |
 
-The current application does not require a backend, API keys, or environment variables. Its stylesheet loads a Google Font and an external background texture.
+The application does not require a backend, API keys, or environment variables. Styling uses system fonts and local CSS.
 
 ## Project Structure
 
 | Path | Description |
 | --- | --- |
-| `src/App.jsx` | Quiz data, application state, scoring, navigation, and drag-and-drop components |
+| `src/App.jsx` | Application screens, persistence, and reducer integration |
+| `src/data/questions.js` | 30 questions organized by level |
+| `src/lib/quiz.js` | Scoring, progression, state transitions, and save validation |
+| `src/components/QuestionCard.jsx` | Answer controls and explanations |
+| `src/components/OrderingQuestion.jsx` | Drag, keyboard, and touch ordering controls |
+| `tests/quiz.test.js` | Node tests for quiz logic and persistence |
 | `src/App.css` | Application styles and animations |
 | `src/index.jsx` | React entry point |
 | `public/` | Static SVG assets |
@@ -118,27 +124,31 @@ The current application does not require a backend, API keys, or environment var
 
 ## Implementation Highlights
 
-- Uses React's `useState` to manage quiz levels, scores, streaks, answers, and navigation.
-- Uses `useEffect` to update streak messages and initialize ordering exercises.
-- Organizes questions by difficulty in a structured question bank.
-- Shuffles question order when a quiz starts.
-- Uses custom `DraggableItem` and `DroppableArea` components for ordering interactions.
-- Prevents previously submitted answers from being answered again.
+- A React reducer owns scoring, progression, answer submission, and navigation.
+- Completed levels are stored separately from the active level.
+- Structured saves are validated before restoration.
+- Reusable components live outside App.
+- Scores are derived from submitted answers, preventing double-counting.
+- Ordering exercises include named buttons, announcements, and focus management.
+- Styles adapt to small screens and respect reduced-motion preferences.
 
-The quiz data, screens, and custom components currently live together in `src/App.jsx`.
+## Testing
+
+Run `npm test` and `npm run build`. Tests cover pass/fail boundaries, retained unlocks, duplicate submissions, streak resets, save restoration, invalid saves, ordering bounds, reset, and completion.
+
+## Rules Reference
+
+Selected ambiguous questions were replaced or clarified using the [ITF Rules of Tennis 2026](https://www.itftennis.com/media/7221/2026-rules-of-tennis-english.pdf). Tournament-specific formats can differ.
 
 ## Potential Improvements
 
-- Extract reusable components and quiz data into separate modules.
-- Save progress between visits.
-- Track completed levels independently of the currently selected level.
-- Add keyboard and touch controls for ordering questions.
-- Add automated tests for scoring and level progression.
-- Review question accuracy and tournament-specific rules.
-- Update introductory wording to match the implemented 7/10 passing requirement.
+- Add a live demo and screenshots.
+- Add browser-level interaction tests.
+- Expand question coverage and document event-specific formats.
 
 ## Author
 
 **Devyn Gans**
 
 [GitHub Profile](https://github.com/dgans1)
+
