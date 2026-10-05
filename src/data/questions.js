@@ -69,7 +69,7 @@ export const quizData = {
         "Baseline",
         "Area behind the baseline"
       ],
-      "explanation": "The centre mark is on the baseline, not the service line.",
+      "explanation": "Moving away from the net, you reach the service line, then the baseline, then the area behind the baseline.",
       "sourceRule": "1",
       "type": "drag-drop"
     },
@@ -106,7 +106,7 @@ export const quizData = {
       "options": [
         "Anywhere in the opponent's court",
         "In the service box diagonally opposite",
-        "On the center line",
+        "In the service box directly opposite",
         "Beyond the baseline"
       ],
       "correctAnswer": "In the service box diagonally opposite",
